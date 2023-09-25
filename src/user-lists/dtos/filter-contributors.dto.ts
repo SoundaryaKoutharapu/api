@@ -1,6 +1,6 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { Type } from "class-transformer";
-import { IsInt, Min, IsOptional, Max, IsString } from "class-validator";
+import { IsInt, Min, IsOptional, Max, IsString, IsArray } from "class-validator";
 
 export class FilterListContributorsDto {
   @ApiPropertyOptional({
@@ -28,20 +28,24 @@ export class FilterListContributorsDto {
   readonly limit?: number = 10;
 
   @ApiPropertyOptional({
+    isArray: true,
     type: "string",
-    example: "Denver, Colorado",
+    example: ["Denver, Colorado", "Germany"],
   })
-  @IsString()
+  @IsArray()
+  @IsString({ each: true })
   @IsOptional()
-  location?: string;
+  location?: string[];
 
   @ApiPropertyOptional({
+    isArray: true,
     type: "string",
-    example: "Mountain Standard Time",
+    example: ["Mountain Standard Time", "UTC"],
   })
-  @IsString()
+  @IsArray()
+  @IsString({ each: true })
   @IsOptional()
-  timezone?: string;
+  timezone?: string[];
 
   @ApiPropertyOptional({
     type: "integer",
